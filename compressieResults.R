@@ -1,7 +1,7 @@
 library(ggplot2)
 source("http://egret.psychol.cam.ac.uk/statistics/R/extensions/rnc_ggplot2_border_themes.r") # http://egret.psychol.cam.ac.uk/statistics/R/graphs2.html
 # Read data
-data <- read.csv(file="compressieResults.csv",header=TRUE)
+data <- read.csv(file="compressieResults.csv",header=TRUE,skip=1)
 # Send output to png
 #png(filename="compressieResults.png", bg="white", width=1024, height=768)
 # Send output to pdf

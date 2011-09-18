@@ -13,6 +13,9 @@ END=9
 NAME=/home/jvh/nobackup/test.rawImages.tar		# 676ba83248fa50922408fa7243358667
 #NAME=/home/jvh/effe/SRR001665.interleaved.fastq	# 8e0cefac38d14de0d816d02c5459c5fc
 export TMPDIR=`pwd`
+# print header
+echo ',,Compression,,,,Decompression,,,,,,,'
+echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,Percentage of original size'
 
 echo gz
 for block in `seq 1 ${END}`
@@ -123,20 +126,3 @@ done
 # S      Total number of CPU-seconds used by the system on behalf of the process (in kernel mode), in seconds.
 # U      Total number of CPU-seconds that the process used directly (in user mode), in seconds.
 # P      Percentage of the CPU that this job got.  This is just user + system times divided by the total running time. It also prints a percentage sign.
-
-# Creating graphs
-# First edit the output to:
-#cat compress.fastq.out | sed ':a;N;$!ba;s/%\n/ /g' | perl -e 'while(<>){if ($_ =~ /^(\d)$/){chomp;print $_." ";}else{print $_;}}' | perl -p -e 's/^8e0cefac38d14de0d816d02c5459c5fc\n//'
-#type,in time,out time,ratio
-#gz_1,161.48,229.02,61.0
-#
-# In R:
-#c <- read.csv(file="compress.out.data",sep=",",head=TRUE)
-#plot(c$out.time,c$ratio)
-#pointLabel(c$out.time,c$ratio,labels=c$"type",method="GA")
-#plot(c$ratio,c$in.time)
-#pointLabel(c$ratio,c$in.time,labels=c$"type",method="GA")
-#colorlabel
-#http://r.789695.n4.nabble.com/color-code-from-csv-td864993.html
-#type,setting,in,out
-#color, number, italic, nonitalic
