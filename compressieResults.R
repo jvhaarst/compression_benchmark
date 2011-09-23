@@ -1,13 +1,14 @@
 library(ggplot2)
 source("http://egret.psychol.cam.ac.uk/statistics/R/extensions/rnc_ggplot2_border_themes.r") # http://egret.psychol.cam.ac.uk/statistics/R/graphs2.html
 # Read data
-data <- read.csv(file="compressieResults_454Img.csv",header=TRUE)
+#data <- read.csv(file="compressieResults_454Img.csv",header=TRUE)
+data <- read.csv(file="compressieResults.csv",header=TRUE)
 # add percentage data
 data$Percentage.of.original.size <- data$Compressed.size/data$Uncompressed.size
 # Send output to png
-#png(filename="compressieResults_454Img.png", bg="white", width=1024, height=768)
+#png(filename="compressieResults.png", bg="white", width=1024, height=768)
 # Send output to pdf
-pdf(file="compressieResults_454Img.pdf", bg="white", width=11, height=8,paper="a4r")
+pdf(file="compressieResults.pdf", bg="white", width=11, height=8,paper="a4r")
 # Plot the compression data
 se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = "point", group=Type, shape=Type) ) +
 	geom_point(color = "blue", size = 8) +
@@ -17,7 +18,7 @@ se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = 
 	theme_bw() +
         labs(x = "log duration (seconds)", y = "rate of compression", colour = "Displacement") +
 	opts(
-		title = "454 Images Compression benchmark\n blue = compression, red = decompression",
+		title = "Compression benchmark\n blue = compression, red = decompression",
 		panel.grid.major = theme_blank(),
 		panel.grid.minor = theme_blank(),
 		panel.background = theme_blank(),
