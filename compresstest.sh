@@ -126,3 +126,9 @@ done
 # S      Total number of CPU-seconds used by the system on behalf of the process (in kernel mode), in seconds.
 # U      Total number of CPU-seconds that the process used directly (in user mode), in seconds.
 # P      Percentage of the CPU that this job got.  This is just user + system times divided by the total running time. It also prints a percentage sign.
+
+# After this is finished do this on the output:
+# sed -i -f filter.sed output.out
+# grep -P -v '^\s*$' < output.out > output.out.cleaned
+
+
