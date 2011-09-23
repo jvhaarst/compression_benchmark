@@ -5,9 +5,9 @@ data <- read.csv(file="compressieResults_454Img.csv",header=TRUE)
 # add percentage data
 data$Percentage.of.original.size <- data$Compressed.size/data$Uncompressed.size
 # Send output to png
-png(filename="compressieResults_454Img.png", bg="white", width=1024, height=768)
+#png(filename="compressieResults_454Img.png", bg="white", width=1024, height=768)
 # Send output to pdf
-#pdf(file="compressieResults_454Img.pdf", bg="white", width=11, height=8,paper="a4r")
+pdf(file="compressieResults_454Img.pdf", bg="white", width=11, height=8,paper="a4r")
 # Plot the compression data
 se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = "point", group=Type, shape=Type) ) +
 	geom_point(color = "blue", size = 8) +
