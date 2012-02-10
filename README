@@ -1,0 +1,5 @@
+This set of scripts can be used to test the advantages of using parallel versions of compression programs on you own dataset.
+We have written a bash script to perform the compressions, and a R script to create a graph of the data.
+
+Before creating the graph, the input data will have to be manually adjusted for now.
+
