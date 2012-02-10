@@ -7,11 +7,10 @@
 #pixz	: https://github.com/vasi/pixz (aptitude install  liblzma-dev libarchive-dev && make)
 #tamp	: http://blogs.sun.com/timc/entry/tamp_a_lightweight_multi_threaded
 #zip	: http://info-zip.org/
-
+# The script expects all programs to be in the PATH.
 START=1
 END=9
-NAME=/home/jvh/nobackup/test.rawImages.tar		# 676ba83248fa50922408fa7243358667
-#NAME=/home/jvh/effe/SRR001665.interleaved.fastq	# 8e0cefac38d14de0d816d02c5459c5fc
+NAME=$1
 export TMPDIR=`pwd`
 # print header
 echo ',,Compression,,,,Decompression,,,,,,,'
@@ -47,9 +46,9 @@ echo xz
 for block in `seq 1 ${END}`
 do
 	echo $block
-	/usr/bin/time --format "%e\t%S\t%U\t%P" ~/code/pixz/pixz -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
 	FILE=`mktemp -u tmp.XXXXXXX.xz`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" ~/code/pixz/pixz -t -x -i ${NAME}.${block}.xz -o $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -t -x -i ${NAME}.${block}.xz -o $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.xz
 	echo
 	md5sum $FILE | cut -f 1 -d' '
@@ -60,9 +59,9 @@ echo 7zip-lzma
 for block in `seq 1 ${END}`
 do
 	echo $block
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/bin/p7zip_9.20.1/bin/7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.7z`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/bin/p7zip_9.20.1/bin/7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z
 	echo
 	md5sum $FILE | cut -f 1 -d' '
@@ -73,9 +72,9 @@ echo 7zip-lzma2
 for block in `seq 1 ${END}`
 do
 	echo $block
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/bin/p7zip_9.20.1/bin/7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.7z2`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/bin/p7zip_9.20.1/bin/7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z
 	echo
 	md5sum $FILE | cut -f 1 -d' '
@@ -99,9 +98,9 @@ echo tamp
 for block in 1
 do
 	echo $block
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/code/tamp/tamp-2.5/tamp -i ${NAME} -o ${NAME}.${block}.q
+	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -i ${NAME} -o ${NAME}.${block}.q
 	FILE=`mktemp -u tmp.XXXXXXX.tamp`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" /home/jvh/code/tamp/tamp-2.5/tamp -d -i ${NAME}.${block}.q -o $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -d -i ${NAME}.${block}.q -o $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.q
 	echo
 	md5sum $FILE | cut -f 1 -d' '
