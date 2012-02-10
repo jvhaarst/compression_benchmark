@@ -1,12 +1,19 @@
 #!/bin/bash
-
 #lzop	: http://www.lzop.org/
 #p7zip	: http://sourceforge.net/projects/p7zip/files/p7zip/
 #pbzip2	: http://www.compression.ca/pbzip2/
 #pigz	: http://www.zlib.net/pigz/
-#pixz	: https://github.com/vasi/pixz (aptitude install  liblzma-dev libarchive-dev && make)
+#pixz	: https://github.com/vasi/pixz (aptitude install liblzma-dev libarchive-dev && make)
 #tamp	: http://blogs.sun.com/timc/entry/tamp_a_lightweight_multi_threaded
 #zip	: http://info-zip.org/
+
+# Debugging
+#set -o xtrace
+#set -o verbose
+# Safeguards
+set -o nounset
+set -o errexit
+
 # The script expects all programs to be in the PATH.
 START=1
 END=9
@@ -94,6 +101,7 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.zip
 done
+exit;
 echo tamp
 for block in 1
 do
