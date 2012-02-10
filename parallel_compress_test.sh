@@ -24,10 +24,6 @@ export TMPDIR=`pwd`
 echo ',,Compression,,,,Decompression,,,,,,,'
 echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,Percentage of original size'
 
-pv ${file} pbzip2 --stdout -p#
-pigz  --processes n
-
-
 echo gz
 for cpu in `seq 1 ${END}`
 do
