@@ -12,7 +12,7 @@
 #set -o verbose
 # Safeguards
 set -o nounset
-set -o errexit
+#set -o errexit
 
 # The script expects all programs to be in the PATH.
 START=1
@@ -20,8 +20,7 @@ END=9
 NAME=$1
 export TMPDIR=`pwd`
 # print header
-echo ',,Compression,,,,Decompression,,,,,,,'
-echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,md5sum'
+echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
 for block in `seq 1 ${END}`
 do
 	echo -e gz"\t"$block'%'
@@ -60,18 +59,6 @@ do
 done
 for block in `seq 1 ${END}`
 do
-	echo -e 7zip-lzma"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
-	FILE=`mktemp -u tmp.XXXXXXX.7z`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
-	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
-	echo '%'
-	md5sum $FILE | cut -f 1 -d' '
-	rm $FILE
-	rm ${NAME}.${block}.7z
-done
-for block in `seq 1 ${END}`
-do
 	echo -e 7zip-lzma2"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.7z2`
@@ -95,6 +82,18 @@ do
 	rm ${NAME}.${block}.zip
 done
 exit;
+for block in `seq 1 ${END}`
+do
+	echo -e 7zip-lzma"\t"$block'%'
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
+	FILE=`mktemp -u tmp.XXXXXXX.7z`
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
+	echo '%'
+	md5sum $FILE | cut -f 1 -d' '
+	rm $FILE
+	rm ${NAME}.${block}.7z
+done
 for block in 1
 do
 	echo -e tamp"\t"$block'%'
@@ -120,9 +119,9 @@ do
 	rm ${NAME}.${block}.lz
 done
 # Time format used:
-# e      Elapsed real (wall clock) time used by the process, in seconds.
-# S      Total number of CPU-seconds used by the system on behalf of the process (in kernel mode), in seconds.
-# U      Total number of CPU-seconds that the process used directly (in user mode), in seconds.
+# e      Elapsed real (wall clock) time used by the process	 in seconds.
+# S      Total number of CPU-seconds used by the system on behalf of the process (in kernel mode)	 in seconds.
+# U      Total number of CPU-seconds that the process used directly (in user mode)	 in seconds.
 # P      Percentage of the CPU that this job got.  This is just user + system times divided by the total running time. It also prints a percentage sign.
 
 # After this is finished do this on the output:

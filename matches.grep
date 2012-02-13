@@ -1,5 +1,4 @@
-,,Compression
-Type,Setting
+^Type
 ^[[:digit:]]
 ^gz
 ^bzip2

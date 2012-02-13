@@ -8,7 +8,7 @@ type=args[3]
 library(ggplot2) # if missing, install with : install.packages("ggplot2")
 source("http://egret.psychol.cam.ac.uk/statistics/R/extensions/rnc_ggplot2_border_themes.r") # http://egret.psychol.cam.ac.uk/statistics/R/graphs2.html
 # Read data
-data <- read.csv(file=input,header=TRUE)
+data <- read.table(file=input,sep='\t',header=TRUE)
 # add percentage data
 data$Percentage.of.original.size <- data$Compressed.size/data$Uncompressed.size
 
@@ -28,12 +28,12 @@ se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = 
 	theme_bw() +
         labs(x = "log duration (seconds)", y = "rate of compression", colour = "Displacement") +
 	opts(
-		title = "Compression benchmark\n blue = compression, red = decompression",
+		title = "Parallel compression benchmark\n blue = compression, red = decompression",
 		panel.grid.major = theme_blank(),
 		panel.grid.minor = theme_blank(),
 		panel.background = theme_blank(),
 		panel.border = theme_border(c("left","bottom")), # RNC hack, see above
-		legend.position = c(0.8,0.3),
+		legend.position = c(0.9,0.8),
 		legend.title = theme_blank(),
 		legend.text = theme_text(size=12),
 		legend.key.size = unit(1.5, "lines"),
