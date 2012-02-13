@@ -1,14 +1,24 @@
-library(ggplot2)
+#!/usr/bin/Rscript
+# This script plots the density of hits to a png file
+# Read arguments from commandline
+args=(commandArgs(TRUE))
+input=args[1]
+output=args[2]
+type=args[3]
+library(ggplot2) # if missing, install with : install.packages("ggplot2")
 source("http://egret.psychol.cam.ac.uk/statistics/R/extensions/rnc_ggplot2_border_themes.r") # http://egret.psychol.cam.ac.uk/statistics/R/graphs2.html
 # Read data
-#data <- read.csv(file="compressieResults_454Img.csv",header=TRUE)
-data <- read.csv(file="compressieResults.csv",header=TRUE)
+data <- read.csv(file=input,header=TRUE)
 # add percentage data
 data$Percentage.of.original.size <- data$Compressed.size/data$Uncompressed.size
-# Send output to png
-#png(filename="compressieResults.png", bg="white", width=1024, height=768)
-# Send output to pdf
-pdf(file="compressieResults.pdf", bg="white", width=11, height=8,paper="a4r")
+
+if (type == "png"){
+	# Send output to png
+	png(filename=output, bg="white", width=1024, height=768)
+} else {
+	# Send output to pdf
+	pdf(file=output, bg="white", width=11, height=8,paper="a4r")
+}
 # Plot the compression data
 se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = "point", group=Type, shape=Type) ) +
 	geom_point(color = "blue", size = 8) +
