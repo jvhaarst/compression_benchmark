@@ -24,28 +24,26 @@ export TMPDIR=`pwd`
 echo ',,Compression,,,,Decompression,,,,,,,'
 echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,Percentage of original size'
 
-echo gz
 for cpu in `seq 1 ${END}`
 do
-	echo $cpu
+	echo -e gz"\t"$cpu"%"
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz --processes ${cpu} -${block} -k --suffix .${block}.gz ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.gz`
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz --processes ${cpu} -d -c ${NAME}.${block}.gz > $FILE
-	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.gz
-	echo
+	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.gz | tr -d '\n'
+	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
 	rm $FILE
 	rm ${NAME}.${block}.gz
 done
-echo bzip2
 for cpu in `seq 1 ${END}`
 do
-	echo $cpu
+	echo -e bzip2"\t"$cpu"%"
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -p${cpu} -${block} -k ${NAME} -c > ${NAME}.${block}.bz2
 	FILE=`mktemp -u tmp.XXXXXXX.bz2`
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -p${cpu} -d -c ${NAME}.${block}.bz2 > $FILE
-	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.bz2
-	echo
+	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.bz2 | tr -d '\n'
+	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
 	rm $FILE
 	rm ${NAME}.${block}.bz2
