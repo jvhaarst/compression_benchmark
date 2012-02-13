@@ -1,0 +1,11 @@
+,,Compression
+Type,Setting
+^[[:digit:]]
+^gz
+^bzip2
+^xz
+^7zip-lzma
+^7zip-lzma2
+^zip-deflate
+^tamp
+^lzop
