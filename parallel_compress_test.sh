@@ -22,7 +22,7 @@ block=1
 export TMPDIR=`pwd`
 # print header
 echo ',,Compression,,,,Decompression,,,,,,,'
-echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,Percentage of original size'
+echo 'Type,Setting,Wall clock time,System time,User time,CPU,Wall clock time,System time,User time,CPU,Original size,Uncompressed size,Compressed size,md5sum'
 
 for cpu in `seq 1 ${END}`
 do
