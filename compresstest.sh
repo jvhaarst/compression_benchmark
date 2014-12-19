@@ -57,7 +57,7 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.xz
 done
-for block in `seq 1 ${END}`
+for block in 0 `seq 1 2 ${END}`
 do
 	echo -e 7zip-lzma2"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
@@ -82,7 +82,7 @@ do
 	rm ${NAME}.${block}.zip
 done
 exit;
-for block in `seq 1 ${END}`
+for block in 0 `seq 1 2 ${END}`
 do
 	echo -e 7zip-lzma"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
