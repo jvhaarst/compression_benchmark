@@ -21,7 +21,7 @@ NAME=$1
 export TMPDIR=`pwd`
 # print header
 echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
-for block in `seq 1 ${END}`
+for block in `seq 0 ${END}` 11
 do
 	echo -e gz"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz -${block} -k --suffix .${block}.gz ${NAME}
