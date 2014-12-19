@@ -45,7 +45,7 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.bz2
 done
-for block in `seq 1 ${END}`
+for block in `seq 0 ${END}`
 do
 	echo -e xz"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
