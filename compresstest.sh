@@ -69,7 +69,7 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.7z
 done
-for block in `seq 1 ${END}`
+for block in `seq 0 ${END}`
 do
 	echo -e zip-deflate"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" zip -${block} --quiet ${NAME}.${block}.zip ${NAME}
