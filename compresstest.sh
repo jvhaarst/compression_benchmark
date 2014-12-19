@@ -69,6 +69,18 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.7z
 done
+for block in `seq 2 32`
+do
+	echo -e 7zip-PPMd"\t"$block'%'
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z a -bd -t7z -mmt=on -mo=${block} -m0=PPMd ${NAME}.${block}.7z ${NAME}
+	FILE=`mktemp -u tmp.XXXXXXX.ppmd`
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
+	echo '%'
+	md5sum $FILE | cut -f 1 -d' '
+	rm $FILE
+	rm ${NAME}.${block}.7z
+done
 for block in `seq 0 ${END}`
 do
 	echo -e zip-deflate"\t"$block'%'
