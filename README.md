@@ -50,5 +50,6 @@ make -f Makefile.linux && \
 export PATH=`readlink -f .`:$PATH
 ```
 
+## Example output ##
 
-
+![Example output](https://raw.githubusercontent.com/jvhaarst/compression_benchmark/master/example.png)
