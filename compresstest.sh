@@ -18,6 +18,7 @@ set -o nounset
 END=9
 NAME=$1
 export TMPDIR=`pwd`
+c=6
 # print header
 echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
 
@@ -25,9 +26,9 @@ echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	Sys
 for block in `seq 0 ${END}` 11
 do
 	echo -e gz"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz -${block} -k --suffix .${block}.gz ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz --processes ${THREADS} -${block} --keep --suffix .${block}.gz ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.gz`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz -d -c ${NAME}.${block}.gz > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz --processes ${THREADS} --decompress --stdout ${NAME}.${block}.gz > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.gz | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -39,9 +40,9 @@ done
 for block in `seq 1 ${END}`
 do
 	echo -e bzip2"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -${block} -k ${NAME} -c > ${NAME}.${block}.bz2
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -p${THREADS} -${block} --keep ${NAME} --stdout > ${NAME}.${block}.bz2
 	FILE=`mktemp -u tmp.XXXXXXX.bz2`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -d -c ${NAME}.${block}.bz2 > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -p${THREADS} --decompress --stdout ${NAME}.${block}.bz2 > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.bz2 | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -53,9 +54,9 @@ done
 for block in `seq 0 ${END}`
 do
 	echo -e xz"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -p ${THREADS} -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
 	FILE=`mktemp -u tmp.XXXXXXX.xz`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -t -x -i ${NAME}.${block}.xz -o $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -p ${THREADS} -t -x -i ${NAME}.${block}.xz -o $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.xz | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -67,9 +68,9 @@ done
 for block in 0 1
 do
 	echo -e 7zip-lzma2"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=${THREADS} -mx=${block} -m0=lzma2 ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.7z2`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=${THREADS} ${NAME}.${block}.7z  > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -81,9 +82,9 @@ done
 for block in `seq 2 32`
 do
 	echo -e 7zip-PPMd"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z a -bd -t7z -mmt=on -mo=${block} -m0=PPMd ${NAME}.${block}.7z ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z a -bd -t7z -mmt=${THREADS} -mo=${block} -m0=PPMd ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.ppmd`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7z e -bd -so -mmt=${THREADS} ${NAME}.${block}.7z  > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -109,9 +110,9 @@ done
 for block in 0 1
 do
 	echo -e 7zip-lzma"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=on -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr a -bd -t7z -mmt=${THREADS} -mx=${block} -m0=lzma ${NAME}.${block}.7z ${NAME}
 	FILE=`mktemp -u tmp.XXXXXXX.7z`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=on ${NAME}.${block}.7z  > $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" 7zr e -bd -so -mmt=${THREADS} ${NAME}.${block}.7z  > $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.7z | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
@@ -123,9 +124,9 @@ done
 for block in 1
 do
 	echo -e tamp"\t"$block'%'
-	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -i ${NAME} -o ${NAME}.${block}.q
+	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -p ${THREADS} -m ${THREADS} -i ${NAME} -o ${NAME}.${block}.q
 	FILE=`mktemp -u tmp.XXXXXXX.tamp`
-	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -d -i ${NAME}.${block}.q -o $FILE
+	/usr/bin/time --format "%e\t%S\t%U\t%P" tamp -p ${THREADS} -m ${THREADS} -d -i ${NAME}.${block}.q -o $FILE
 	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.q | tr -d '\n'
 	echo '%'
 	md5sum $FILE | cut -f 1 -d' '
