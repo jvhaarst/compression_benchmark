@@ -15,12 +15,13 @@ set -o nounset
 #set -o errexit
 
 # The script expects all programs to be in the PATH.
-START=1
 END=9
 NAME=$1
 export TMPDIR=`pwd`
 # print header
 echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
+
+# GZ
 for block in `seq 0 ${END}` 11
 do
 	echo -e gz"\t"$block'%'
@@ -33,6 +34,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.gz
 done
+
+# BZIP2
 for block in `seq 1 ${END}`
 do
 	echo -e bzip2"\t"$block'%'
@@ -45,6 +48,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.bz2
 done
+
+# XZ
 for block in `seq 0 ${END}`
 do
 	echo -e xz"\t"$block'%'
@@ -57,6 +62,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.xz
 done
+
+# 7zip-lzma2
 for block in 0 1
 do
 	echo -e 7zip-lzma2"\t"$block'%'
@@ -69,6 +76,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.7z
 done
+
+# 7zip-PPMd
 for block in `seq 2 32`
 do
 	echo -e 7zip-PPMd"\t"$block'%'
@@ -81,6 +90,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.7z
 done
+
+# zip-deflate
 for block in `seq 0 ${END}`
 do
 	echo -e zip-deflate"\t"$block'%'
@@ -93,7 +104,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.zip
 done
-exit;
+
+# 7zip-lzma
 for block in 0 1
 do
 	echo -e 7zip-lzma"\t"$block'%'
@@ -106,6 +118,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.7z
 done
+
+# TAMP
 for block in 1
 do
 	echo -e tamp"\t"$block'%'
@@ -118,6 +132,8 @@ do
 	rm $FILE
 	rm ${NAME}.${block}.q
 done
+
+# LZOP
 for block in `seq 1 ${END}`
 do
 	echo -e lzop"\t"$block'%'
