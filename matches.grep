@@ -5,6 +5,8 @@
 ^xz
 ^7zip-lzma
 ^7zip-lzma2
+^7zip-PPMd
 ^zip-deflate
 ^tamp
 ^lzop
+^[[:alnum:]]{32}
