@@ -15,7 +15,7 @@ The bash script is called like this :
 After it has finished, the data needs to be filtered and formatted for use in the R script, like this:
 
 ```
-cat dev1_20141220_095316.csv | grep -E -f ~/scratch/projects/compression_test/compression_benchmark/matches.grep  | grep -v Pavlov | sed ':a;N;$!ba;s/%\n/\t/g' > compressionResults.csv
+cat dev1_20141220_095316.csv | grep -E -f matches.grep  | grep -v Pavlov | sed ':a;N;$!ba;s/%\n/\t/g' > compressionResults.csv
 ```
 
 Then use the R script to generate a graph of the result :
