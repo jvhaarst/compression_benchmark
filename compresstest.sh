@@ -18,7 +18,7 @@ set -o nounset
 END=9
 NAME=$1
 export TMPDIR=`pwd`
-c=6
+THREADS=6
 # print header
 echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
 
