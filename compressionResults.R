@@ -13,7 +13,7 @@ data$Percentage.of.original.size <- data$Compressed.size/data$Uncompressed.size
 
 if (type == "png"){
 	# Send output to png
-	png(filename=output, bg="white", width=1024, height=768)
+	png(filename=output, bg="white", width=1920, height=1080)
 } else {
 	# Send output to pdf
 	pdf(file=output, bg="white", width=11, height=8,paper="a4r")
@@ -38,6 +38,6 @@ se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = 
 		legend.key = element_blank()
         )+
         scale_shape(solid = FALSE)+
-	scale_shape_manual(values=c(0:6,8,9))
+	scale_shape_manual(values=c(0:10,12:14))
 print(se)
 summary(se)
