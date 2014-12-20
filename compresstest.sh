@@ -4,7 +4,7 @@
 #pbzip2	: http://www.compression.ca/pbzip2/
 #pigz	: http://www.zlib.net/pigz/
 #pixz	: https://github.com/vasi/pixz (aptitude install liblzma-dev libarchive-dev && make)
-#tamp	: http://blogs.sun.com/timc/entry/tamp_a_lightweight_multi_threaded
+#tamp	: https://blogs.oracle.com/timc/entry/tamp_a_lightweight_multi_threaded
 #zip	: http://info-zip.org/
 
 # Debugging
