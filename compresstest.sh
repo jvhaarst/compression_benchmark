@@ -6,6 +6,7 @@
 #pixz	: https://github.com/vasi/pixz (aptitude install liblzma-dev libarchive-dev && make)
 #tamp	: https://blogs.oracle.com/timc/entry/tamp_a_lightweight_multi_threaded
 #zip	: http://info-zip.org/
+#lz4	: https://code.google.com/p/lz4/
 
 # Debugging
 #set -o xtrace
@@ -146,6 +147,20 @@ do
 	md5sum $FILE | cut -f 1 -d' '
 	rm $FILE
 	rm ${NAME}.${block}.lz
+done
+
+# LZ4
+for block in `seq 1 ${END}`
+do
+	echo -e lz4"\t"$block'%'
+	/usr/bin/time --format "%e\t%S\t%U\t%P" lz4 -${block} -z -c ${NAME} > ${NAME}.${block}.lz4
+	FILE=`mktemp -u tmp.XXXXXXX.lz4`
+	/usr/bin/time --format "%e\t%S\t%U\t%P" lz4 -d -c ${NAME}.${block}.lz4 > $FILE
+	stat --printf="%s\t" ${NAME} $FILE ${NAME}.${block}.lz4 | tr -d '\n'
+	echo '%'
+	md5sum $FILE | cut -f 1 -d' '
+	rm $FILE
+	rm ${NAME}.${block}.lz4
 done
 # Time format used:
 # e      Elapsed real (wall clock) time used by the process	 in seconds.

@@ -9,4 +9,5 @@
 ^zip-deflate
 ^tamp
 ^lzop
+^lz4
 ^[[:alnum:]]{32}

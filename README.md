@@ -29,7 +29,7 @@ R CMD BATCH --no-save --no-restore "--args compressionResults.csv blah.pdf pdf" 
 Most of the programs are part of your Linux distribution, so for e.g. Ubuntu do this :
 
 ```
-sudo aptitude install lzop p7zip pbzip2 pigz pixz zip
+sudo aptitude install lzop p7zip pbzip2 pigz pixz zip liblz4-tool
 ```
 
 TAMP has to be created from source, and added to your PATH.
