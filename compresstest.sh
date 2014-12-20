@@ -16,7 +16,6 @@ set -o nounset
 #set -o errexit
 
 # The script expects all programs to be in the PATH.
-END=9
 NAME=$1
 export TMPDIR=`pwd`
 THREADS=6
@@ -24,7 +23,7 @@ THREADS=6
 echo 'Type	Setting	Wall clock time	System time	User time	CPU	Wall clock time	System time	User time	CPU	Original size	Uncompressed size	Compressed size		md5sum'
 
 # GZ
-for block in `seq 0 ${END}` 11
+for block in `seq 0 9` 11
 do
 	echo -e gz"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pigz --processes ${THREADS} -${block} --keep --suffix .${block}.gz ${NAME}
@@ -38,7 +37,7 @@ do
 done
 
 # BZIP2
-for block in `seq 1 ${END}`
+for block in `seq 1 9`
 do
 	echo -e bzip2"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pbzip2 -p${THREADS} -${block} --keep ${NAME} --stdout > ${NAME}.${block}.bz2
@@ -52,7 +51,7 @@ do
 done
 
 # XZ
-for block in `seq 0 ${END}`
+for block in `seq 0 9`
 do
 	echo -e xz"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" pixz -p ${THREADS} -t -${block} -i ${NAME} -o ${NAME}.${block}.xz
@@ -94,7 +93,7 @@ do
 done
 
 # zip-deflate
-for block in `seq 0 ${END}`
+for block in `seq 0 9`
 do
 	echo -e zip-deflate"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" zip -${block} --quiet ${NAME}.${block}.zip ${NAME}
@@ -136,7 +135,7 @@ do
 done
 
 # LZOP
-for block in `seq 1 ${END}`
+for block in `seq 1 9`
 do
 	echo -e lzop"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" lzop -${block} -k -c ${NAME} > ${NAME}.${block}.lz
@@ -150,7 +149,7 @@ do
 done
 
 # LZ4
-for block in `seq 1 ${END}`
+for block in 1 9
 do
 	echo -e lz4"\t"$block'%'
 	/usr/bin/time --format "%e\t%S\t%U\t%P" lz4 -${block} -z -c ${NAME} > ${NAME}.${block}.lz4
