@@ -152,9 +152,3 @@ done
 # S      Total number of CPU-seconds used by the system on behalf of the process (in kernel mode)	 in seconds.
 # U      Total number of CPU-seconds that the process used directly (in user mode)	 in seconds.
 # P      Percentage of the CPU that this job got.  This is just user + system times divided by the total running time. It also prints a percentage sign.
-
-# After this is finished do this on the output:
-# cat galaxy_20120210_150137.csv | grep -f matches.grep  | grep -v Pavlov | sed ':a;N;$!ba;s/%\n/%\t/g' > galaxy_20120210_150137.filtered.csv
-# sed filter from http://stackoverflow.com/questions/1251999/sed-how-can-i-replace-a-newline-n
-
-
