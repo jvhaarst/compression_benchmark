@@ -40,11 +40,13 @@ First install the necessary libraries, as TAMP is a 32 bit program:
 sudo aptitude install libc6-dev-i386
 ```
 
-Then fetch TAMP and QuickLZO 1.41, and build:
+Then fetch TAMP and QuickLZ 1.41, and build:
 
 ```
-wget https://blogs.oracle.com/timc/resource/tamp-2.5-source.zip && unzip tamp-2.5-source.zip && cd tamp-2.5 && \
-wget http://www.quicklz.com/quicklz141.zip && unzip quicklz141.zip && make -f Makefile.linux && \
+wget https://blogs.oracle.com/timc/resource/tamp-2.5-source.zip && \
+unzip tamp-2.5-source.zip && cd tamp-2.5 && \
+wget http://www.quicklz.com/quicklz141.zip && unzip quicklz141.zip && \
+make -f Makefile.linux && \
 export PATH=`readlink -f .`:$PATH
 ```
 
