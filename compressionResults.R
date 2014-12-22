@@ -38,6 +38,22 @@ se <- 	ggplot(data, aes(x=Wall.clock.time, y=Percentage.of.original.size,geom = 
 		legend.key = element_blank()
         )+
         scale_shape(solid = FALSE)+
-	scale_shape_manual(values=c(0:10,12:14))
+	scale_shape_manual(values=c(0:10,12:14))+
+  geom_text(
+        aes(
+          hjust=-1,
+          vjust=-1,
+          size=10,
+          label = Setting
+          ))+
+  geom_text(
+        data = data,
+        mapping = aes (
+          x=Wall.clock.time.1,
+          y=Percentage.of.original.size,
+          hjust=-1,
+          vjust=-1,
+          size=10,
+          label = Setting))
 print(se)
 summary(se)
